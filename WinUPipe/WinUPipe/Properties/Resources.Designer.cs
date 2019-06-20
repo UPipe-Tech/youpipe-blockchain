@@ -59,5 +59,36 @@ namespace UTech.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查找类似 # i18n 波斯語-伊朗國
+        ///
+        /// 的本地化字符串。
+        /// </summary>
+        internal static string fa_IR {
+            get {
+                return ResourceManager.GetString("fa_IR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 # i18n 简体中文
+        /// 的本地化字符串。
+        /// </summary>
+        internal static string zh_CN {
+            get {
+                return ResourceManager.GetString("zh_CN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 # i18n 繁體中文
+        /// 的本地化字符串。
+        /// </summary>
+        internal static string zh_TW {
+            get {
+                return ResourceManager.GetString("zh_TW", resourceCulture);
+            }
+        }
     }
 }
