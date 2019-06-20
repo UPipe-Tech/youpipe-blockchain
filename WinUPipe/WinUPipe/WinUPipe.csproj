@@ -65,8 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\I18N.cs" />
+    <Compile Include="Controller\MainServiceController.cs" />
+    <Compile Include="Controller\MenuViewController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AccountCreator.cs" />
+    <Compile Include="StringEx.cs" />
     <Compile Include="View\CreateAccountForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +108,10 @@
     <Content Include="Data\zh_CN.txt" />
     <Content Include="Data\zh_TW.txt" />
     <Content Include="favicon256.ico" />
+    <None Include="Resources\up24.png" />
+    <None Include="Resources\up20.png" />
+    <None Include="Resources\up16.png" />
+    <None Include="Resources\uPipe.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
