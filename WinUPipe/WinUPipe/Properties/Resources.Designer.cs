@@ -61,6 +61,15 @@ namespace UTech.Properties {
         }
         
         /// <summary>
+        ///   查找类似 YouPipe 的本地化字符串。
+        /// </summary>
+        internal static string ClientName {
+            get {
+                return ResourceManager.GetString("ClientName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 # i18n 波斯語-伊朗國
         ///
         /// 的本地化字符串。
@@ -68,6 +77,15 @@ namespace UTech.Properties {
         internal static string fa_IR {
             get {
                 return ResourceManager.GetString("fa_IR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 https://github.com/UPipe-Tech/youpipe-blockchain/issues 的本地化字符串。
+        /// </summary>
+        internal static string IssueURL {
+            get {
+                return ResourceManager.GetString("IssueURL", resourceCulture);
             }
         }
         

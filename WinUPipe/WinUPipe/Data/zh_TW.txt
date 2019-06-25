@@ -1,1 +1,5 @@
 # i18n 繁體中文
+# MenuItem Begin
+Off=关闭
+Quit=退出
+# MenuItem End

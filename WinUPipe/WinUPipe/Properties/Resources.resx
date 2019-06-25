@@ -139,4 +139,12 @@
   <data name="zh_TW" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Data\zh_TW.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
+  <data name="ClientName" xml:space="preserve">
+    <value>YouPipe</value>
+    <comment>客户端名称</comment>
+  </data>
+  <data name="IssueURL" xml:space="preserve">
+    <value>https://github.com/UPipe-Tech/youpipe-blockchain/issues</value>
+    <comment>错误上报</comment>
+  </data>
 </root>

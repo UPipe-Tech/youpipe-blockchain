@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UTech.Properties;
+using UTech.Util;
 
 /**
  * ┌───────────────────────────────────────────────────────────────────────┐
@@ -61,6 +62,7 @@ namespace UTech.Controller
         {
             this.ctxController = controller;
 
+            this.LoadMenu();
             //註冊事件
 
             //Task Icon
@@ -73,7 +75,7 @@ namespace UTech.Controller
 
 
 
-            this.LoadMenu();
+            
         }
 
         #endregion
@@ -174,6 +176,17 @@ namespace UTech.Controller
 
             icon_base = Icon.FromHandle(icon_baseBitmap.GetHicon());
             _notifyIcon.Icon = icon_base;
+
+            //
+            string tipInfo = null;
+            string text = I18N.GetString($"{Resources.ClientName} {Utils.GetAssemblyVersion()}");
+            Logging.Debug(text);
+
+            if(text.Length > 127)
+            {
+                text = text.Substring(0, 126 - 3) + "...";
+            }
+            ViewUtils.SetNotifyIconTray(_notifyIcon, text);
         }
 
 

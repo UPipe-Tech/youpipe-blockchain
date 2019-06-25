@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ using UTech.Controller;
 
 namespace UTech.Util
 {
+    #region Utils Begin
 
     /// <summary>
     /// 工具类
@@ -110,6 +112,15 @@ namespace UTech.Util
         #region System Util
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static string GetAssemblyVersion()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
+        /// <summary>
         /// 注册表
         /// </summary>
         /// <param name="name"></param>
@@ -143,6 +154,19 @@ namespace UTech.Util
             }
         }
 
+        /// <summary>
+        /// 是否Vista 
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsWinVistaOrHigher()
+        {
+            return Environment.OSVersion.Version.Major > 5;
+        }
+
+        public static bool Is64BitOperatingSystem()
+        {
+            return Environment.Is64BitOperatingSystem;
+        }
         /// <summary>
         /// 检验当前系统环境是否支持
         /// </summary>
@@ -189,4 +213,37 @@ namespace UTech.Util
             UIntPtr minimumWorkingSetSize, UIntPtr maximumWorkingSetSize);
         #endregion
     }
+
+    #endregion
+
+
+    #region ViewUtils
+    public static class ViewUtils
+    {
+        public static IEnumerable<TControl> GetChildControls<TControl>(this Control control) where TControl : Control
+        {
+            if(control.Controls.Count == 0)
+            {
+                return Enumerable.Empty<TControl>();
+            }
+
+            var children = control.Controls.OfType<TControl>().ToList();
+
+            return children.SelectMany(GetChildControls<TControl>).Concat(children);
+        }
+
+        public static void SetNotifyIconTray(NotifyIcon icon,string text)
+        {
+            if (text.Length >= 128)
+                throw new ArgumentOutOfRangeException("Text limited to 127 characters.");
+            Type t = typeof(NotifyIcon);
+            BindingFlags hidden = BindingFlags.NonPublic | BindingFlags.Instance;
+
+            t.GetField("text", hidden).SetValue(icon, text);
+
+            if ((bool)t.GetField("added", hidden).GetValue(icon))
+                t.GetMethod("UpdateIcon", hidden).Invoke(icon, new object[] { true });
+        }
+    }
+    #endregion
 }

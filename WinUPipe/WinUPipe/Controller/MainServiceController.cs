@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
+using UTech.Properties;
 
 /**
  * ┌───────────────────────────────────────────────────────────────────────┐
@@ -25,9 +24,19 @@ namespace UTech.Controller
     public class MainServiceController
     {
 
-        public void stop()
-        {
 
+        /// <summary>
+        /// 启动主服务
+        /// </summary>
+        public void Start()
+        {
+            Logging.Debug($"{Resources.ClientName} Starting...");
+        }
+
+
+        public void Stop()
+        {
+            Logging.Debug($"{Resources.ClientName} Stop.");
         }
     }
 }
