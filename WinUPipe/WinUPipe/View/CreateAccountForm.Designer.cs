@@ -128,6 +128,7 @@
             this.textBoxPw.PasswordChar = '*';
             this.textBoxPw.Size = new System.Drawing.Size(300, 21);
             this.textBoxPw.TabIndex = 2;
+            this.textBoxPw.TextChanged += new System.EventHandler(this.textBoxPw_TextChanged);
             // 
             // textBoxRePw
             // 
@@ -214,13 +215,15 @@
             // 
             // labelCopy2
             // 
-            this.labelCopy2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelCopy2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelCopy2.AutoSize = true;
             this.labelCopy2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.labelCopy2.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.labelCopy2.Location = new System.Drawing.Point(351, 93);
+            this.labelCopy2.Location = new System.Drawing.Point(351, 141);
             this.labelCopy2.Name = "labelCopy2";
-            this.labelCopy2.Size = new System.Drawing.Size(40, 12);
+            this.labelCopy2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.labelCopy2.Size = new System.Drawing.Size(40, 22);
             this.labelCopy2.TabIndex = 1;
             this.labelCopy2.Text = "Copy";
             this.labelCopy2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
