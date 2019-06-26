@@ -1,5 +1,18 @@
 # i18n 繁體中文
 # MenuItem Begin
-Off=关闭
+Off=關閉
+On=開啟
+
+Update Client=更新軟體
+Help=幫助
+About Us=關於我們
 Quit=退出
 # MenuItem End
+
+# Form UI Begin
+Create Account=創建賬號
+Create=創建
+Cancel=關閉
+Password need set 8~20 charaters.=請設置8~20位密碼
+Two passwords are inconsistent=兩次密碼不一致
+# Form UI End

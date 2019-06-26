@@ -24,10 +24,56 @@ namespace UTech.Model
 {
     public class Configuration
     {
+        private ProfileKey _key = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        public ProfileKey Key { get { return _key; } }
 
+        public bool Enable { get; set; } = false;
+
+        public ProxyMode ProxyMode { get; set; } = ProxyMode.Auto;
+        /// <summary>
+        /// 
+        /// </summary>
+        public Configuration()
+        {
+            loadKey();
+            loadConfig();
+        }
+
+
+        public void initKey(ProfileKey key)
+        {
+            this._key = key;
+        }
+        /// <summary>
+        /// 检查是否存在Key ，同 dll
+        /// </summary>
+        private void loadKey()
+        {
+            
+        }
+
+        /// <summary>
+        /// 加载需要记住的配置，如开启状态
+        /// </summary>
+        private void loadConfig()
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsNoneAccount()
+        {
+            return _key == null;
+        }
     }
 
-    public struct ProfileKey
+    public class ProfileKey
     {
         public string hashKey;
         public string secretKey;

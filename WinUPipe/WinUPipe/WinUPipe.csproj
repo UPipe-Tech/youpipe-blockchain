@@ -69,6 +69,7 @@
     <Compile Include="Controller\MainServiceController.cs" />
     <Compile Include="Controller\MenuViewController.cs" />
     <Compile Include="Model\Configs.cs" />
+    <Compile Include="Model\Types.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AccountCreator.cs" />

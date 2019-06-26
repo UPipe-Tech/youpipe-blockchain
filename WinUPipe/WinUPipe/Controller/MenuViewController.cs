@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UTech.Model;
 using UTech.Properties;
 using UTech.Util;
+using UTech.View;
 
 /**
  * ┌───────────────────────────────────────────────────────────────────────┐
@@ -57,13 +59,19 @@ namespace UTech.Controller
         private MenuItem QuitItem;
         #endregion
 
+        #region Forms Begin
+        private CreateAccountForm accForm;
+        #endregion
+
         #region Construct
         public MenuViewController(MainServiceController controller)
         {
             this.ctxController = controller;
-
             this.LoadMenu();
+            this.updateMenuStatus(controller.GetCurrentConfiguration());
             //註冊事件
+            ctxController.EnableStatusChanged += CtxController_EnableStatusChanged;
+            ctxController.GlobalStatusChanged += CtxController_GlobalStatusChanged;
 
             //Task Icon
             _notifyIcon = new NotifyIcon();
@@ -76,6 +84,31 @@ namespace UTech.Controller
 
 
             
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CtxController_GlobalStatusChanged(object sender, EventArgs e)
+        {
+            Configuration cfg = ctxController.GetCurrentConfiguration();
+            if (cfg.IsNoneAccount()) return;
+            if(cfg.ProxyMode == ProxyMode.Global)
+            {
+                this.GlobalModeItem.Checked = true;
+                this.AutoModeItem.Checked = false;
+            }
+            else
+            {
+                this.GlobalModeItem.Checked = false;
+                this.AutoModeItem.Checked = true;
+            }
+        }
+
+        private void CtxController_EnableStatusChanged(object sender, EventArgs e)
+        {
+            this.OnOffItem.Text = ctxController.GetCurrentConfiguration().Enable ? I18N.GetString("Off") : I18N.GetString("On");
         }
 
         #endregion
@@ -104,13 +137,13 @@ namespace UTech.Controller
         private void LoadMenu()
         {
             this.contextMenu = new ContextMenu(new MenuItem[] {
-                this.OnOffItem = CreateMenuItem("Off",new EventHandler(UnImplemented_Event)),
+                this.OnOffItem = CreateMenuItem("On",new EventHandler(OnOffItem_Click)),
                 new MenuItem("-"),
                 this.AutoModeItem = CreateMenuItem("Auto Mode",new EventHandler(UnImplemented_Event)),
                 this.GlobalModeItem = CreateMenuItem("Global Mode",new EventHandler(UnImplemented_Event)),
                 new MenuItem("-"),
                 this.AccountGrpItem = CreateMenuGroup("Account(None)",new MenuItem[]{
-                    this.CreateAccItem = CreateMenuItem("Initial Account File",new EventHandler(UnImplemented_Event)),
+                    this.CreateAccItem = CreateMenuItem("Initial Account File",new EventHandler(CreateAccountItem_Click)),
                     this.AccountInfoItem = CreateMenuItem("Account Information",new EventHandler(UnImplemented_Event)),
                     this.ImportAccItem = CreateMenuItem("Import Account",new EventHandler(UnImplemented_Event)),
                     this.ExportAccItem = CreateMenuItem("Export Account",new EventHandler(UnImplemented_Event)),
@@ -118,13 +151,41 @@ namespace UTech.Controller
                 }),
                 this.LicenseItem = new MenuItem("No License"),
                 new MenuItem("-"),
-                this.UpdateItem = CreateMenuItem("Update Soft",new EventHandler(UnImplemented_Event)),
+                this.UpdateItem = CreateMenuItem("Update Client",new EventHandler(UnImplemented_Event)),
                 this.HelpItem = CreateMenuItem("Help",new EventHandler(UnImplemented_Event)),
                 this.AboutUsItem = CreateMenuItem("About Us",new EventHandler(UnImplemented_Event)),
                 new MenuItem("-"),
                 this.QuitItem = CreateMenuItem("Quit",new EventHandler(Quit_EventClick))
 
             });
+        }
+        
+        private void updateMenuStatus(Configuration cfg)
+        {
+            this.AboutUsItem.Enabled = false;
+            ChangedItemEnable(cfg.IsNoneAccount());
+        }
+
+        private void ChangedItemEnable(bool HasAccount)
+        {
+            if (HasAccount)
+            {
+                this.CreateAccItem.Enabled = true;
+                this.OnOffItem.Enabled = false;
+                this.DeleteAccItem.Enabled = false;
+                this.ExportAccItem.Enabled = false;
+                this.GlobalModeItem.Checked = false;
+                this.GlobalModeItem.Enabled = false;
+                this.AutoModeItem.Checked = false;
+                this.AutoModeItem.Enabled = false;
+            }
+            else
+            {
+                this.OnOffItem.Enabled = true;
+                this.DeleteAccItem.Enabled = true;
+                this.ExportAccItem.Enabled = true;
+                this.CreateAccItem.Enabled = false;
+            }
         }
         /// <summary>
         /// 
@@ -150,6 +211,78 @@ namespace UTech.Controller
                 MessageBox.Show(String.Format("{0} Feature come soon.", m.Text), I18N.GetString("Info"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+        #endregion
+
+
+        #region Form Handler
+
+        private void OnOffItem_Click(object sender,EventArgs e)
+        {
+            bool enableState = ctxController.GetCurrentConfiguration().Enable;
+            ctxController.ToggleEnable(!enableState);
+        }
+
+        private void AutoModeItem_Click(object sender, EventArgs e)
+        {
+            Configuration cfg = ctxController.GetCurrentConfiguration();
+            if (cfg.ProxyMode == ProxyMode.Global)
+            {
+                ctxController.ToggleGlobalStatus(ProxyMode.Auto);
+            }
+                
+        }
+
+        private void GlobalModeItem_Click(object sender, EventArgs e)
+        {
+            Configuration cfg = ctxController.GetCurrentConfiguration();
+            if (cfg.ProxyMode == ProxyMode.Global)
+            {
+                ctxController.ToggleGlobalStatus(ProxyMode.Global);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CreateAccountItem_Click(object sender, EventArgs e)
+        {
+            ShowAccForm();
+        }
+        #region Create Account Form
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="isCreating"></param>
+        private void ShowAccForm(bool isCreating = true)
+        {
+            if(this.accForm != null)
+            {
+                this.accForm.Activate();
+            }
+            else
+            {
+                this.accForm = new CreateAccountForm(ctxController);
+                this.accForm.Show();
+                this.accForm.Activate();
+                this.accForm.FormClosed += AccForm_FormClosed;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AccForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.accForm.Dispose();
+            this.accForm = null;
+            Utils.ReleaseMemory(true);
+        }
+        #endregion
+
         #endregion
 
 

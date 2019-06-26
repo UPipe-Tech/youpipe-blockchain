@@ -95,7 +95,7 @@ namespace WinUPipe
 #endif
 
 
-            MainController = new MainServiceController();
+            MainController = MainServiceController.Instance;
             MenuController = new MenuViewController(MainController);
             MainController.Start();
             Application.Run();
